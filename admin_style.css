@@ -1,0 +1,225 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-header {
+    background-color: #333;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+.admin-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+.user-info span {
+    margin-right: 15px;
+}
+.user-info button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.user-info button:hover {
+    background-color: #c9302c;
+}
+
+.admin-sidebar {
+    width: 250px;
+    background-color: #455a64; /* গাঢ় নীল-ধূসর */
+    color: #cfd8dc; /* হালকা নীল-ধূসর টেক্সট */
+    padding-top: 80px; /* হেডার এর উচ্চতা + কিছু প্যাডিং */
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+.admin-sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.admin-sidebar nav ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: #cfd8dc;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background-color 0.3s, border-left-color 0.3s;
+}
+.admin-sidebar nav ul li a:hover,
+.admin-sidebar nav ul li a.active {
+    background-color: #37474f; /* একটু গাঢ় হোভার */
+    color: #ffffff;
+    border-left-color: #00acc1; /* একটি অ্যাকসেন্ট রঙ */
+}
+.admin-sidebar .submenu {
+    list-style-type: none;
+    padding-left: 20px; /* সাবমেনু ইনডেন্ট */
+    display: none; /* ডিফল্টভাবে হাইড করা */
+    background-color: #37474f; /* সাবমেনুর জন্য সামান্য ভিন্ন ব্যাকগ্রাউন্ড */
+}
+.admin-sidebar .submenu li a {
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+.admin-sidebar .submenu li a:hover,
+.admin-sidebar .submenu li a.active {
+     background-color: #263238;
+     color: #00acc1;
+}
+
+
+.admin-content {
+    margin-left: 250px; /* সাইডবারের প্রস্থ */
+    padding: 20px;
+    padding-top: 80px; /* হেডার এর উচ্চতা + কিছু প্যাডিং */
+    width: calc(100% - 250px);
+    box-sizing: border-box;
+}
+.admin-content h2 {
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* ফর্ম স্টাইল */
+form div {
+    margin-bottom: 15px;
+}
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+form button[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+form button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+.form-message {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+
+/* Login Container Style */
+.login-container {
+    width: 350px;
+    margin: 100px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* টেবিল স্টাইল */
+.admin-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.admin-content th, .admin-content td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+}
+.admin-content th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+.admin-content tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.admin-content tr:hover {
+    background-color: #f1f1f1;
+}
+.admin-content .action-buttons button, .admin-content .add-new-btn {
+    margin-right: 5px;
+    padding: 5px 8px;
+    font-size: 0.85em;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+.admin-content .edit-btn { background-color: #f0ad4e; color: white; border-color: #eea236;}
+.admin-content .delete-btn { background-color: #d9534f; color: white; border-color: #d43f3a;}
+.admin-content .add-new-btn { background-color: #5cb85c; color:white; border-color: #4cae4c; margin-bottom:15px;}
+
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.search-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.pagination-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+.pagination-controls button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.pagination-controls button.active {
+    background-color: #455a64;
+    color: white;
+}

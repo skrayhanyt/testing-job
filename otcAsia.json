@@ -1,0 +1,4 @@
+[
+    { "id": 1, "logo": "images/logo1.png", "description": "Asia Job 1: Exciting work in the Asian market. Details inside.", "telegramUser": "your_telegram_username_or_group" },
+    { "id": 2, "logo": "images/logo2.png", "description": "Asia Job 2: Grow your skills with this Asian project.", "telegramUser": "your_telegram_username_or_group" }
+]

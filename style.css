@@ -1,0 +1,577 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* === Star Background CSS START === */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #ccc; /* ডার্ক ব্যাকগ্রাউন্ডের জন্য টেক্সটের ডিফল্ট রঙ পরিবর্তন */
+    padding-top: 70px; /* For fixed navbar */
+    margin: 0; /* body-র ডিফল্ট মার্জিন ০ করা হয়েছে */
+    overflow-x: hidden; /* Allow vertical scroll, prevent horizontal */
+    position: relative; /* ক্যানভাসকে সঠিকভাবে পজিশন করার জন্য */
+    background-color: #050a28; /* Fallback dark blue background */
+}
+
+canvas#starfield { /* ক্যানভাসকে টার্গেট করার জন্য একটি আইডি যোগ করা হলো */
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ensure it covers viewport width */
+    height: 100vh; /* Ensure it covers viewport height */
+    z-index: -1; /* এটি অন্যান্য কন্টেন্টের পেছনে থাকবে */
+}
+
+/* নিশ্চিত করুন যে আপনার প্রধান কন্টেন্টগুলো ক্যানভাসের উপরে দেখা যায় */
+header, main, footer, .modal { /* modal কেও z-index দিতে হবে */
+    position: relative; /* z-index কাজ করার জন্য */
+    z-index: 1; /* ক্যানভাসের z-index (-1) থেকে বেশি */
+}
+/* === Star Background CSS END === */
+
+
+header {
+    background: rgba(20, 20, 40, 0.85); /* Darker, slightly transparent header */
+    color: #fff;
+    padding: 0.5rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100; /* Higher z-index to be above hero animation elements */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 1rem;
+}
+
+nav .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e0e0e0; /* Brighter logo color */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 15px;
+}
+
+nav ul li a {
+    color: #d0d0d0; /* Lighter nav link color */
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active-link {
+    background-color: rgba(60, 60, 90, 0.9); /* Adjusted hover color */
+    color: #fff;
+}
+
+main {
+    max-width: 1100px;
+    margin: 20px auto; /* This margin is relative to where main starts after hero */
+    padding: 1rem;
+    position: relative; /* To ensure its content is above fixed backgrounds */
+    z-index: 2; /* Above webgl-canvas if it's not fixed or has lower z-index */
+}
+
+
+/* Styles for the new hero animation section */
+.hero-animation-section {
+    height: 100vh; /* Full viewport height */
+    width: 100%;    /* Full viewport width */
+    position: relative; /* For #app positioning */
+    /* The body padding-top will push this down by 70px.
+       If we want true 100vh from top edge, we might need to adjust its top margin negatively
+       or change how body padding works with it. For now, it will be 100vh below the header space.
+       Alternatively, make it position: fixed, top: 0, left: 0 and adjust main content accordingly.
+       Let's keep it in flow for now, meaning it respects body's padding-top.
+    */
+    margin-top: -70px; /* Counteract body padding-top for true full screen hero */
+    /* background-color: #000; */ /* Fallback, webgl-canvas should cover it */
+}
+
+.hero-animation-section #app {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  /* background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,0,0.5) 200%); */ /* Removed, webgl-canvas provides background */
+  position: relative;
+  font-family: "Montserrat", serif;
+}
+
+.hero-animation-section .hero {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Ensure text is centered */
+  position: relative; /* To ensure it's above the canvas if canvas is part of #app flow */
+  z-index: 5; /* Above webgl-canvas */
+}
+
+/* Scoped H1, H2, H3 from animation css */
+.hero-animation-section .hero h1,
+.hero-animation-section .hero h2,
+.hero-animation-section .hero h3.hero-subtitle {
+  margin: 0;
+  padding: 0;
+  color: #FFFFFF; /* Changed to white for better contrast on potentially dark sphere backgrounds */
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 105, 180, 0.5); /* Shadow for white text */
+  line-height: 1.1; /* Adjusted line height */
+  user-select: none;
+  /* z-index is handled by .hero container */
+}
+
+.hero-animation-section .hero h1 {
+  font-size: clamp(50px, 12vw, 100px); /* Responsive font size */
+  font-weight: 700;
+}
+
+.hero-animation-section .hero h2 {
+  font-size: clamp(40px, 10vw, 80px); /* Responsive font size */
+  font-weight: 500;
+}
+
+.hero-animation-section .hero h3.hero-subtitle {
+  font-size: clamp(20px, 5vw, 30px); /* Responsive font size */
+  font-weight: 400;
+  margin-top: 15px;
+  color: #f0f0f0; /* Slightly off-white */
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 182, 193, 0.4); /* Softer shadow */
+}
+
+.hero-animation-section #webgl-canvas {
+  position: absolute; /* Changed to absolute to be contained within .hero-animation-section */
+  top: 0;
+  left: 0;
+  width: 100%;    /* Full width of parent */
+  height: 100%;   /* Full height of parent */
+  overflow: hidden;
+  z-index: 3; /* Below .hero text (5) and .buttons (5), but above parent's potential background */
+}
+
+
+.hero-animation-section .buttons {
+  position: absolute; /* Positioned within #app, at the bottom */
+  width: 100%;
+  bottom: 30px; /* Increased bottom spacing */
+  z-index: 5; /* Same as hero text, above webgl-canvas */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.hero-animation-section button {
+  font-family: "Montserrat", serif;
+  background: rgba(255, 255, 255, 0.15); /* More transparent */
+  color: #fff;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 15px; /* Increased padding */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+}
+.hero-animation-section button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+
+/* Page Sections Styling */
+.page-section {
+    display: none; /* Initially hide all sections */
+    padding: 20px;
+    background-color: rgba(30, 30, 50, 0.75); /* Slightly more opaque */
+    color: #f0f0f0;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative; /* Ensure it's in a stacking context above backgrounds */
+    z-index: 2;
+}
+
+.page-section.active-page {
+    display: block; /* Show active section */
+}
+
+.page-section h2 {
+    color: #e8e8e8; /* Brighter heading */
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(238, 238, 238, 0.35);
+    padding-bottom: 10px;
+}
+
+/* Job Grid for OTC */
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.job-card {
+    background: rgba(45, 45, 70, 0.85); /* Darker card background */
+    border: 1px solid rgba(221, 221, 221, 0.25);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Softer shadow */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+
+.job-card img.logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd; /* Slightly darker border for logo bg */
+    background-color: #f8f8f8; /* Off-white logo background */
+}
+
+.job-card .description {
+    font-size: 0.9rem;
+    color: #d8d8d8; /* Lighter description text */
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.job-card .status-contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-card .active-icon {
+    color: #5cb85c; /* Bootstrap success green */
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+.job-card .active-icon::before {
+    content: '✔ ';
+}
+
+.job-card .contact-me-icon {
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+}
+.job-card .contact-me-icon:hover {
+    background-color: #0056b3;
+}
+.job-card .contact-me-icon::before {
+    content: '💬 ';
+}
+
+
+/* Active Work List */
+.active-work-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px; /* Slightly more padding */
+    border-bottom: 1px solid rgba(238, 238, 238, 0.25);
+}
+.active-work-item:last-child {
+    border-bottom: none;
+}
+.active-work-item .job-name {
+    font-weight: bold;
+    color: #e8e8e8;
+}
+.active-work-item .country {
+    color: #b8b8b8;
+    font-size: 0.9rem;
+}
+.active-work-item .status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.active-work-item .status.active {
+    background-color: rgba(92, 184, 92, 0.8); /* Brighter active status */
+    color: #fff;
+}
+.active-work-item .status.deactive {
+    background-color: rgba(217, 83, 79, 0.8); /* Brighter deactive status */
+    color: #fff;
+}
+
+/* Article Grid (Instant Work & How to Work) */
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.article-card {
+    background: rgba(45, 45, 70, 0.85);
+    border: 1px solid rgba(221, 221, 221, 0.25);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.article-card img.logo {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.article-card .title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #e8e8e8;
+}
+
+/* Latest Posts Grid on Home Page */
+.latest-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+.latest-post-item {
+    background: rgba(45, 45, 70, 0.85);
+    border: 1px solid rgba(221, 221, 221, 0.25);
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.latest-post-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.latest-post-item h4 { /* Category Title */
+    font-size: 0.8rem;
+    color: #a8a8a8;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+.latest-post-item .item-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #e8e8e8;
+}
+.latest-post-item .item-desc {
+    font-size: 0.85rem;
+    color: #c8c8c8;
+}
+
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1002; /* Above header */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.85); /* Darker backdrop */
+}
+
+.modal-content {
+    background-color: #222831; /* Darker modal content background */
+    color: #e0e0e0;
+    margin: 10% auto;
+    padding: 25px;
+    border: 1px solid #444; /* Slightly lighter border */
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+.close-button {
+    color: #bbb; /* Lighter close button */
+    float: right;
+    font-size: 32px; /* Larger close button */
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    transition: color 0.2s ease;
+}
+.close-button:hover,
+.close-button:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modalImage {
+    display: block;
+    margin: 0 auto 15px auto;
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: contain;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+#modalTitle {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+#modalDescription {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #d8d8d8;
+    white-space: pre-wrap;
+}
+
+
+footer {
+    text-align: center;
+    padding: 1.5rem 1rem; /* More padding */
+    background: rgba(20, 20, 40, 0.9); /* Consistent with header */
+    color: #a0a0a0; /* Softer footer text */
+    margin-top: 30px; /* More space before footer */
+    position: relative; /* Ensure it's above fixed backgrounds */
+    z-index: 2;
+}
+footer p {
+    color: #c0c0c0; /* Make copyright text a bit brighter */
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding-top: 60px; /* Adjust for potentially shorter fixed navbar on mobile */
+    }
+    .hero-animation-section {
+        margin-top: -60px; /* Match new body padding-top */
+    }
+    nav {
+        flex-direction: column;
+        align-items: stretch; /* Full width logo and nav links container */
+    }
+    nav .logo {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 0;
+    }
+    nav ul li {
+        margin-left: 0;
+        width: 100%;
+    }
+    nav ul li a {
+        display: block;
+        padding: 0.85rem; /* Larger tap target */
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    nav ul li:last-child a {
+        border-bottom: none;
+    }
+
+    .job-grid, .article-grid, .latest-posts-grid {
+        grid-template-columns: 1fr;
+    }
+    .modal-content {
+        width: 90%;
+        margin: 20% auto; /* More margin for mobile modal */
+        padding: 20px;
+    }
+
+    .hero-animation-section .hero h1 {
+      font-size: 13vw;
+    }
+    .hero-animation-section .hero h2 {
+      font-size: 10vw;
+    }
+    .hero-animation-section .hero h3.hero-subtitle {
+      font-size: 5vw;
+    }
+    .hero-animation-section .buttons button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    .hero-animation-section .buttons {
+        bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 50px;
+    }
+    .hero-animation-section {
+        margin-top: -50px; /* Match new body padding-top */
+    }
+    nav .logo {
+        font-size: 1.3rem;
+    }
+    nav ul li a {
+        padding: 0.75rem;
+    }
+    .hero-animation-section .hero h1 {
+      font-size: 15vw;
+    }
+    .hero-animation-section .hero h2 {
+      font-size: 12vw;
+    }
+     .hero-animation-section .hero h3.hero-subtitle {
+      font-size: 6vw;
+    }
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #aaa;
+}

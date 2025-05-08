@@ -1,0 +1,4 @@
+[
+    { "id": 1, "logo": "images/logo1.png", "description": "Europe Job 1: Short description about the work. Quick and easy task.", "telegramUser": "your_telegram_username_or_group" },
+    { "id": 2, "logo": "images/logo2.png", "description": "Europe Job 2: Another opportunity in Europe. Apply now!", "telegramUser": "your_telegram_username_or_group" }
+]
